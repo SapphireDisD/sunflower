@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DSharpPlus" />
+    <None Remove="MySql.Data" />
+    <None Remove="SixLabors.ImageSharp" />
+    <None Remove="SixLabors.ImageSharp.Drawing" />
+    <None Remove="System.Drawing.Common" />
+    <None Remove="Assets\Dots.png" />
+    <None Remove="Assets\Montserrat-Bold.ttf" />
+    <None Remove="Assets\Montserrat-Medium.ttf" />
+    <None Remove="Config.json" />
+    <None Remove="SQLite" />
+    <None Remove="IdGen" />
+    <None Remove="sqlite-net-pcl" />
+    <None Remove="SixLabors.Fonts" />
+    <None Remove="DSharpPlus.CommandsNext" />
+    <None Remove="DSharpPlus.Lavalink" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="4.1.0" />
+    <PackageReference Include="IdGen" Version="3.0.0" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="DSharpPlus.CommandsNext" Version="4.1.0" />
+    <PackageReference Include="DSharpPlus.Lavalink" Version="4.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Dots.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Montserrat-Bold.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Montserrat-Medium.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Assets\Montserrat-Medium.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
