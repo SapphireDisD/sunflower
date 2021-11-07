@@ -162,6 +162,17 @@ namespace Sunflower
                 Console.WriteLine("Ready!");
             };
 
+            commands.CommandErrored += async (s, e) =>
+            {
+                var embed = new DiscordEmbedBuilder
+                {
+                    Color = new DiscordColor("#c85151"),
+                    Description = "Something went wrong! Make sure you ran the comamnd correctly.",
+                };
+                embed.WithFooter("Requested by " + e.Context.Message.Author.Username + "#" + e.Context.Message.Author.Discriminator + " (" + e.Context.Message.Author.Id + ")", e.Context.Message.Author.AvatarUrl);
+                await e.Context.RespondAsync("", embed.Build());
+            };
+
             await discord.ConnectAsync();
 
             await lavalink.ConnectAsync(lavalinkConfig);
