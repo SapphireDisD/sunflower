@@ -21,6 +21,7 @@
     <None Remove="SixLabors.Fonts" />
     <None Remove="DSharpPlus.CommandsNext" />
     <None Remove="DSharpPlus.Lavalink" />
+    <None Remove="Google.Apis" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DSharpPlus" Version="4.1.0" />

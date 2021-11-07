@@ -11,7 +11,7 @@ namespace Sunflower.Commands
     {
         [Command("kick")]
         [RequirePermissions(Permissions.KickMembers)]
-        public async Task KickCommand(CommandContext ctx, DiscordMember member, string reason)
+        public async Task KickCommand(CommandContext ctx, DiscordMember member, [RemainingText] string reason)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Sunflower.Commands
 
         [Command("warn")]
         [RequireUserPermissions(Permissions.KickMembers)]
-        public async Task WarnCommand(CommandContext ctx, DiscordMember member, string reason)
+        public async Task WarnCommand(CommandContext ctx, DiscordMember member, [RemainingText] string reason)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace Sunflower.Commands
                         var embed = new DiscordEmbedBuilder
                         {
                             Color = new DiscordColor("#c85151"),
-                            Description = "Invalind warn ID.",
+                            Description = "Invalid warn ID.",
                         };
                 embed.WithFooter("Requested by " + ctx.Message.Author.Username + "#" + ctx.Message.Author.Discriminator + " (" + ctx.Message.Author.Id + ")", ctx.Message.Author.AvatarUrl);
                 await ctx.RespondAsync("", embed.Build());

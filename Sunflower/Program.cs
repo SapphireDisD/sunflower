@@ -12,12 +12,14 @@ using DSharpPlus.CommandsNext;
 using Newtonsoft.Json;
 using DSharpPlus.Net;
 using DSharpPlus.Lavalink;
+using System.Collections;
 
 public class Config
 {
     public string Token { get; set; }
     public string Cat { get; set; }
     public string Perspective { get; set; }
+    public string Youtube { get; set; }
     public string Domain { get; set; }
     public string Contact { get; set; }
     public List<ulong> Owners { get; set; }
@@ -46,6 +48,47 @@ public class DbTables
     }
 }
 
+public class WarnerDictionary : IEnumerable
+{
+    private Dictionary<ulong, LavalinkGuildConnection> Dictionary { get; set; }
+
+    public WarnerDictionary()
+    {
+        Dictionary = new Dictionary<ulong, LavalinkGuildConnection>();
+    }
+
+    public LavalinkGuildConnection this[ulong key]
+    {
+        get
+        {
+            return Dictionary.ContainsKey(key) ? Dictionary[key] : null;
+        }
+        set
+        {
+                Dictionary[key] = value;
+                value.PlaybackFinished += async (s, e) =>
+                {
+                    if (Sunflower.Program.queue.Count > 0)
+                    {
+                        await value.PlayAsync(Sunflower.Program.queue[key].First());
+
+                        Sunflower.Program.queue[key].RemoveAt(0);
+                    }
+                    else
+                    {
+                        Sunflower.Program.playing = false;
+                        await value.DisconnectAsync();
+                    }
+                };
+        }
+    }
+
+    public IEnumerator GetEnumerator()
+    {
+        return Dictionary.GetEnumerator();
+    }
+}
+
 namespace Sunflower
 {
     class Program
@@ -54,6 +97,11 @@ namespace Sunflower
         public static string version = "WIP";
         public static SQLiteConnection db = new SQLiteConnection(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "CISP.db"));
         public static IdGenerator generator = new IdGenerator(0);
+        public static LavalinkExtension lava;
+        public static LavalinkNodeConnection node;
+        public static WarnerDictionary conn = new WarnerDictionary();
+        public static bool playing = false;
+        public static Dictionary<ulong, List<LavalinkTrack>> queue = new Dictionary<ulong, List<LavalinkTrack>>();
 
         static void Main(string[] args)
         {
@@ -64,9 +112,10 @@ namespace Sunflower
 
         static async Task MainAsync()
         {
-            var discord = new DiscordClient(new DiscordConfiguration()
-            {
-                Token = config.Token,
+
+           var discord = new DiscordClient(new DiscordConfiguration()
+        {
+            Token = config.Token,
                 TokenType = TokenType.Bot
             });
 
@@ -113,11 +162,14 @@ namespace Sunflower
                 Console.WriteLine("Ready!");
             };
 
-                await discord.ConnectAsync();
+            await discord.ConnectAsync();
 
             await lavalink.ConnectAsync(lavalinkConfig);
 
-            await Task.Delay(-1);
+            lava = discord.GetLavalink();
+            node = lava.ConnectedNodes.Values.First();
+
+        await Task.Delay(-1);
             }
     }
 }
