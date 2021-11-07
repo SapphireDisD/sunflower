@@ -236,7 +236,7 @@ namespace Sunflower.Commands
         [Command("stop")]
         public async Task StopCommand(CommandContext ctx, [RemainingText] string search)
         {
-            Program.queue[ctx.Guild.Id] = null;
+            Program.queue[ctx.Guild.Id].Clear();
             await Program.conn[ctx.Guild.Id].StopAsync();
             var embed = new DiscordEmbedBuilder
             {
